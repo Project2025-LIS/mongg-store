@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pembayaran</title>
+  <style>
+    body {
+      background-color: #2c1177;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      text-align: center;
+    }
+
+    .card {
+      background-color: #3e1a94;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    img.qris {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #ffc627;
+    }
+
+    .note {
+      font-size: 14px;
+      margin-top: 8px;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Scan QRIS untuk Pembayaran</h2>
+    <img src="qris.jpg" alt="QRIS" class="qris"> <!-- Ganti qris.jpg dengan file QRIS kamu -->
+    <div class="total" id="total-harga">Total Pembayaran: Rp 0</div>
+    <div class="note">Silakan screenshot sebagai bukti pembayaran.</div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("dataPesanan"));
+    if (data) {
+      document.getElementById("total-harga").innerText = 
+        "Total Pembayaran: Rp " + data.total.toLocaleString("id-ID");
+    }
+  </script>
+</body>
+</html>

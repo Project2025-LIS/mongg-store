@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Antrian Joki - Mongg Store</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #2c1177, #3e1a94);
+      color: white;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #ffc627;
+    }
+
+    .table-container {
+      max-width: 960px;
+      margin: auto;
+      overflow-x: auto;
+      background: #3e1a94;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4b25a5;
+      color: #ffc627;
+    }
+
+    tr:nth-child(even) {
+      background-color: #4b25a5;
+    }
+
+    tr:hover {
+      background-color: #5c2ecc;
+    }
+
+    .empty {
+      text-align: center;
+      color: #ccc;
+      padding: 24px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #ccc;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Antrian Joki Tugas</h1>
+  <div class="table-container">
+    <table id="antrian-table">
+      <thead>
+        <tr>
+          <th>ID Pesanan</th>
+          <th>Nama</th>
+          <th>Jenis Tugas</th>
+          <th>Deadline</th>
+        </tr>
+      </thead>
+      <tbody id="tabel-body">
+        <!-- Isi tabel dari localStorage -->
+      </tbody>
+    </table>
+    <div class="empty" id="kosong" style="display: none;">Belum ada antrian joki.</div>
+  </div>
+
+  <footer>
+    &copy; 2025 Mongg Store | Antrian Joki Tugas
+  </footer>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("antrianJoki")) || [];
+    const tbody = document.getElementById("tabel-body");
+    const kosong = document.getElementById("kosong");
+
+    if (data.length === 0) {
+      kosong.style.display = "block";
+    } else {
+      kosong.style.display = "none";
+      data.forEach(item => {
+        const row = tbody.insertRow();
+        row.insertCell(0).textContent = item.id || "-";
+        row.insertCell(1).textContent = item.nama || "-";
+        row.insertCell(2).textContent = item.jenis || "-";
+        row.insertCell(3).textContent = item.deadline || "-";
+      });
+    }
+  </script>
+</body>
+</html>

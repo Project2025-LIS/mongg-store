@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Joki Tugas - Mongg Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2c1177, #3e1a94);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 32px 16px;
+      color: white;
+    }
+
+    .card {
+      background: #3e1a94;
+      border-radius: 24px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+      padding: 28px 24px;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+    }
+
+    .card h2 {
+      text-align: center;
+      color: #ffc627;
+      margin-bottom: 24px;
+      font-size: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-size: 14px;
+      margin-bottom: 16px;
+      background: #fff;
+      color: #333;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #00d0af;
+      color: white;
+      border: none;
+      font-weight: bold;
+      border-radius: 14px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00a68b;
+    }
+
+    .brand-tag {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      background: #ffc627;
+      color: #3e1a94;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 12px 0 12px 12px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand-tag">MONGG STORE</div>
+    <h2>Form Joki Tugas</h2>
+
+    <label for="nama">Nama Pangggilan</label>
+    <input type="text" id="nama" placeholder="Contoh: Mongg" />
+
+    <label for="jenis-tugas">Jenis Tugas</label>
+    <select id="jenis-tugas">
+      <option value="Makalah">Makalah</option>
+      <option value="Essay">Essay</option>
+      <option value="PowerPoint">PowerPoint</option>
+      <option value="Lainnya">Lainnya</option>
+    </select>
+
+    <label for="jumlah">Jumlah Halaman</label>
+    <input type="number" id="jumlah" min="1" placeholder="Contoh: 5" />
+
+    <label for="plagiarisme">Plagiarisme</label>
+    <select id="plagiarisme">
+      <option value="Tidak Ada">Tidak Ada</option>
+      <option value="≤ 80%">≤ 80%</option>
+      <option value="≤ 60%">≤ 60%</option>
+      <option value="≤ 40%">≤ 40%</option>
+      <option value="≤ 20%">≤ 20%</option>
+    </select>
+
+    <label for="layanan">Jenis Layanan</label>
+    <select id="layanan">
+      <option value="Reguler">Reguler</option>
+      <option value="Express">Express (24 jam)</option>
+      <option value="Dadakan">Dadakan (≤ 8 jam)</option>
+    </select>
+
+    <label for="catatan">Catatan Tambahan</label>
+    <textarea id="catatan" placeholder="Contoh: Gunakan bahasa baku..."></textarea>
+
+    <button onclick="simpanData()">Lanjut Konfirmasi</button>
+  </div>
+
+  <script>
+    function simpanData() {
+      const nama = document.getElementById("nama").value;
+      const jenis = document.getElementById("jenis-tugas").value;
+      const jumlah = parseInt(document.getElementById("jumlah").value);
+      const plagiat = document.getElementById("plagiarisme").value;
+      const layanan = document.getElementById("layanan").value;
+      const catatan = document.getElementById("catatan").value;
+
+      if (!nama || !jumlah || jumlah < 1) {
+        alert("Nama dan jumlah halaman wajib diisi!");
+        return;
+      }
+
+      const hargaPerHalaman = 6000;
+      let hargaPlagiat = 0;
+
+      switch (plagiat) {
+        case "≤ 80%": hargaPlagiat = 50000; break;
+        case "≤ 60%": hargaPlagiat = 75000; break;
+        case "≤ 40%": hargaPlagiat = 100000; break;
+        case "≤ 20%": hargaPlagiat = 125000; break;
+        default: hargaPlagiat = 0;
+      }
+      
+      let biayaLayanan = 0;
+      
+      if (layanan === "Express"){
+        biayaLayanan = 30000;
+      } else if (layanan === "Dadakan"){
+        biayaLayanan = 45000;
+      }
+
+      const totalHarga = (hargaPerHalaman * jumlah) + hargaPlagiat + biayaLayanan;
+      const idPesanan = "JOKI-" + Math.floor(Math.random() * 90000 + 10000);
+
+      const dataPesanan = {
+        id: idPesanan,
+        nama: nama,
+        jenis: jenis,
+        jumlah: jumlah,
+        plagiarisme: plagiat,
+        layanan: layanan,
+        catatan: catatan,
+        total: totalHarga
+      };
+
+      localStorage.setItem("dataPesanan", JSON.stringify(dataPesanan));
+      window.location.href = "konfirmasi.html";
+    }
+  </script>
+</body>
+</html>

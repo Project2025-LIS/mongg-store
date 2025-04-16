@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pesanan Berhasil</title>
+  <style>
+    body {
+      background: #2c1177;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .message {
+      background: #3e1a94;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      color: #00ffcc;
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin-bottom: 24px;
+      font-size: 18px;
+    }
+
+    a {
+      background: #00d0af;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="message">
+    <h1>Pesanan Berhasil!</h1>
+    <p>Terima kasih! Pesanan kamu sudah kami terima.</p>
+    <div id="btnWA"></div>
+    <a href="index.html">Kembali ke Beranda</a>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("dataPesanan"));
+    const adminWA = "6283102568122";
+
+    if (data) {
+      const pesan = `Halo Admin, saya baru saja melakukan pemesanan joki tugas:\n\n` + `ID Pesanan: ${data.id}\n` +
+        `Nama: ${data.nama}\n` +
+        `Jenis Tugas: ${data.jenis}\n` +
+        `Jumlah Halaman: ${data.jumlah}\n` +
+        `Plagiarisme: ${data.plagiarisme}\n` +
+        `Catatan: ${data.catatan || '-'}\n` +
+        `Total: Rp${data.total.toLocaleString('id-ID')}\n\n` +
+        `Berikut bukti transfer sudah saya upload. Terima kasih!`;
+
+      const linkWA = `https://wa.me/${adminWA}?text=${encodeURIComponent(pesan)}`;
+
+      document.getElementById("btnWA").innerHTML = `
+        <a href="${linkWA}" target="_blank">Kirim ke WhatsApp Admin</a>
+      `;
+    } else {
+      document.getElementById("btnWA").innerHTML = "<p style='color: red;'>Data pesanan tidak ditemukan.</p>";
+    }
+  </script>
+</body>
+</html>

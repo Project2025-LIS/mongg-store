@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Konfirmasi Pesanan - Mongg Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2c1177, #3e1a94);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    .card {
+      background-color: #3e1a94;
+      padding: 28px 24px;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .brand-tag {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      background: #ffc627;
+      color: #3e1a94;
+      font-weight: bold;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 0 0 0 16px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ffc627;
+      font-size: 22px;
+      margin-bottom: 24px;
+    }
+
+    .info {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .info span {
+      font-weight: 600;
+    }
+
+    .total {
+      background: #ffc627;
+      color: #3e1a94;
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 18px 0;
+    }
+
+    .button {
+      background: #00d0af;
+      color: white;
+      text-align: center;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background: #00a68b;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand-tag">MONGG STORE</div>
+    <h2>Konfirmasi Pesanan</h2>
+
+    <div class="info"><span>ID Pesanan:</span> <span id="id-pesanan"></span></div>
+    <div class="info"><span>Nama:</span> <span id="nama"></span></div>
+    <div class="info"><span>Jenis Tugas:</span> <span id="jenis"></span></div>
+    <div class="info"><span>Jumlah Halaman:</span> <span id="jumlah"></span></div>
+    <div class="info"><span>Plagiarisme:</span> <span id="plagiat"></span></div>
+    <div class="info"><span>Jenis Layanan:</span> <span id="layanan"></span></div>
+    <div class="info"><span>Catatan:</span> <span id="catatan"></span></div>
+    <div class="info"><span>Estimasi Pengerjaan:</span> <span id="estimasi"></span></div>
+    <div class="total">Total: Rp <span id="total"></span></div>
+
+    <a class="button" href="upload.html">Bayar Sekarang</a>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("dataPesanan"));
+
+    if (data) {
+      document.getElementById("id-pesanan").textContent = data.id;
+      document.getElementById("nama").textContent = data.nama;
+      document.getElementById("jenis").textContent = data.jenis;
+      document.getElementById("jumlah").textContent = data.jumlah;
+      document.getElementById("plagiat").textContent = data.plagiarisme;
+      document.getElementById("layanan").textContent = data.layanan || "Reguler";
+      document.getElementById("catatan").textContent = data.catatan || "-";
+      document.getElementById("total").textContent = data.total.toLocaleString();
+
+      let estimasi = "2-3 hari";
+      if (data.layanan === "Express") estimasi = "1 hari (24 jam)";
+      if (data.layanan === "Dadakan") estimasi = "≤ 8 jam";
+      document.getElementById("estimasi").textContent = estimasi;
+
+      // Simpan ke antrian jika belum disimpan sebelumnya
+      let antrian = JSON.parse(localStorage.getItem("antrianJoki")) || [];
+      const sudahAda = antrian.some(item => item.id === data.id);
+      if (!sudahAda) {
+        antrian.push({
+          id: data.id,
+          nama: data.nama,
+          jenis: data.jenis,
+          deadline: estimasi,
+          catatan: data.catatan || "-"
+        });
+        localStorage.setItem("antrianJoki", JSON.stringify(antrian));
+      }
+    } else {
+      alert("Data pesanan tidak ditemukan!");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
